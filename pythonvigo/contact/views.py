@@ -1,21 +1,17 @@
-from time import sleep
-
-from django.core.mail import send_mail
 from django import forms
 from django.shortcuts import render, redirect
+
+from contact.tasks import send_mail
 
 class ContactForm(forms.Form):
     comment = forms.CharField(widget=forms.Textarea)
     email = forms.EmailField()
 
     def send_mail(self):
+        recipient = self.cleaned_data['email']
         subject = 'Contact form'
         message = 'Thank you'
-        from_email = 'contact@python-vigo.es'
-        recipient_list = [self.cleaned_data['email']]
-        sleep(3)
-        send_mail(subject, message, from_email, recipient_list)
-
+        send_mail(recipient, subject, message)
 
 def contact(request):
     if request.method == 'POST':
@@ -26,7 +22,6 @@ def contact(request):
     if request.method == 'GET':
         form = ContactForm()
     return render(request, 'contact/contact_form.html', {'form': form})
-
 
 def thank_you(request):
     return render(request, 'contact/contact_success.html')
