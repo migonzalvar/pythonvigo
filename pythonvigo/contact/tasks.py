@@ -2,6 +2,9 @@ from time import sleep
 
 from django.core.mail import send_mail as django_send_mail
 
+from pythonvigo.celery import app
+
+@app.task
 def send_mail(recipient, subject, message):
     recipient_list = [recipient]
     from_email = 'contact@python-vigo.es'

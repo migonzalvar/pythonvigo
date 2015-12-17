@@ -123,3 +123,5 @@ STATIC_URL = '/static/'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+BROKER_URL = 'redis://127.0.0.1:6379/0'

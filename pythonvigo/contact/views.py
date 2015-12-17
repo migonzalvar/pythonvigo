@@ -11,7 +11,7 @@ class ContactForm(forms.Form):
         recipient = self.cleaned_data['email']
         subject = 'Contact form'
         message = 'Thank you'
-        send_mail(recipient, subject, message)
+        send_mail.delay(recipient, subject, message)
 
 def contact(request):
     if request.method == 'POST':
